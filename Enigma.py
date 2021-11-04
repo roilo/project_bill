@@ -44,8 +44,11 @@ class A1Z26(Cipher):
             for words in lines:
                 word = []
                 for char in words:
-                    word.append(str(ord(char) % 65 + 1).zfill(2))
-                    # word.append(str(ord(char) % 97 + 1).zfill(2))
+                    if char.isalpha():
+                        word.append(str(ord(char) % 65 + 1).zfill(2))
+                        # word.append(str(ord(char) % 97 + 1).zfill(2))
+                    else:
+                        word.append(char)
                 line.append("-".join(word))
             result.append(line)
         return result
@@ -62,6 +65,37 @@ class A1Z26(Cipher):
                 line.append("".join(word))
             result.append(" ".join(line))
         return result
+
+class Atbash(Cipher):
+    def __init__(self, text: list) -> None:
+        super().__init__(text)
+    
+    def encode(self):
+        self.text = self.to_upper() # convert to uppercase
+        # self.to_lower() # convert to lowercase
+        result = []
+        for lines in self.text:
+            line = []
+            for words in lines:
+                word = []
+                for char in words:
+                    if char.isupper():
+                        word.append(
+                            chr(ord("Z") - ord(char) + ord("A"))
+                        )
+                    elif char.islower():
+                        word.append(
+                            chr(ord("z") - ord(char) + ord("a"))
+                        )
+                    else:
+                        word.append(char)
+                line.append("".join(word))
+            result.append(line)
+        return
+
+    def decode(self):
+        # encoding is the same as decoding
+        return self.encode()
 
 def init_parser() -> argparse.ArgumentParser():
     init = argparse.ArgumentParser(

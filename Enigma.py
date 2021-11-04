@@ -45,10 +45,14 @@ class A1Z26(Cipher):
                 word = []
                 for char in words:
                     if char.isalpha():
-                        word.append(str(ord(char) % 65 + 1).zfill(2))
-                        # word.append(str(ord(char) % 97 + 1).zfill(2))
-                    else:
-                        word.append(char)
+                        if char.isupper():
+                            word.append(
+                                str(ord(char) % 65 + 1).zfill(2)
+                            )
+                        else:
+                            word.append(
+                                str(ord(char) % 97 + 1).zfill(2)
+                            )
                 line.append("-".join(word))
             result.append(line)
         return result
@@ -61,7 +65,9 @@ class A1Z26(Cipher):
                 chars = words.split("-")
                 word = []
                 for char in chars:
+                    # only alphabetic numbers
                     word.append(chr(int(char) + 64))
+                    # word.append(chr(int(char) + 96))
                 line.append("".join(word))
             result.append(" ".join(line))
         return result
@@ -71,8 +77,7 @@ class Atbash(Cipher):
         super().__init__(text)
     
     def encode(self):
-        self.text = self.to_upper() # convert to uppercase
-        # self.to_lower() # convert to lowercase
+        # no need to convert to uppercase or lowercase
         result = []
         for lines in self.text:
             line = []
@@ -91,7 +96,7 @@ class Atbash(Cipher):
                         word.append(char)
                 line.append("".join(word))
             result.append(line)
-        return
+        return result
 
     def decode(self):
         # encoding is the same as decoding
@@ -149,21 +154,23 @@ def main() -> None:
         process = A1Z26(in_data)
         out_data = process.encode()
     elif args.encode == "atbash":
-        pass
+        process = Atbash(in_data)
+        out_data = process.encode()
 
     # decoding data
     if args.decode == "a1z26":
         process = A1Z26(in_data)
         out_data = process.decode()
-    elif args.encode == "atbash":
-        pass
+    elif args.decode == "atbash":
+        process = Atbash(in_data)
+        out_data = process.decode()
 
     # write data
     with open(args.outfile, mode='w', encoding='utf-8') as outfile:
         for lines in out_data:
-            if args.encode:
+            if args.encode or args.decode == "atbash":
                 line = " ".join(lines)
-            elif args.decode:
+            elif args.decode == "a1z26":
                 line = "".join(lines)
 
             if lines != out_data[-1]:

@@ -1,13 +1,15 @@
 # Project Bill
-Ciphers coded in different programming languages.
+Ciphers coded in C++ and Python programming language.
 
-A1Z26 - Created in 09-18-2019.
+A1Z26 (C++) - Created in 09-18-2019.
 
-Atbash - Created in 09-12-2019.
+Atbash (C++) - Created in 09-12-2019.
 
-Caesar - Created in 09-17-2019.
+Caesar (C++) - Created in 09-17-2019.
 
-Vigenère - Created in 09-18-2019.
+Vigenère (C++) - Created in 09-18-2019.
+
+Bill (Python) - Created in 11-4-2021.
 
 ## How to run/execute (Windows)
 ### Via Command Prompt
